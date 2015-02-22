@@ -119,8 +119,12 @@ angular.module('ngS3upload.directives', []).
         };
       },
       templateUrl: function(elm, attrs) {
-        var theme = attrs.theme || ngS3Config.theme;
-        return 'theme/' + theme + '.html';
+        var url = attrs.templateUrl;
+        if (!url) {
+          var theme = attrs.theme || ngS3Config.theme;
+          url = 'theme/' + theme + '.html';
+        }
+        return url;
       }
     };
   }]);
