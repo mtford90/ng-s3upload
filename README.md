@@ -128,14 +128,14 @@ npm install ng-s3upload
 attributes:
 * bucket - Specify the wanted bucket
 * subdomain - Specify the s3 subdomain. Defaults to 's3' (s3.amazonaws.com)
-* templateUrl - Specify a custom template to use (overrides theme)
+* template-url - Specify a custom template to use (overrides theme)
 * s3-upload-options - Provide additional options:
   * getOptionsUri - The uri of the server service that is needed to sign the request (mentioned in section Setup#4) - Required if second option is empty.
   * getManualOptions - if for some reason you need to have your own mechanism of getting a policy, you can simply assign your scope variable to this option. Note it should be resolved on the moment of directive load.
   * folder - optional, specifies a folder inside the bucket the save the file to
   * enableValidation - optional, set to "false" in order to disable the field validation.
   * targetFilename - An optional attribute for the target filename. if provided the file will be renamed to the provided value instead of having the file original filename.
-  
+
 ## Themes
 ng-s3upload allows to customize the directive template using themes. Currently the available themes are: bootstrap2, bootstrap3
 
