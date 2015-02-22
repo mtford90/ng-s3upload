@@ -40,12 +40,12 @@ angular.module('ngS3upload.directives', []).
             var bucket = scope.$eval(attrs.bucket),
               subdomain = attrs.subdomain ? scope.$eval(attrs.subdomain) : 's3';
 
-            // Bind the button click event
             var button = angular.element(element.children()[0]),
               file = angular.element(element.find("input")[0]);
-            button.bind('click', function (e) {
+
+            scope.click = function (e) {
               file[0].click();
-            });
+            };
 
             // Update the scope with the view value
             ngModel.$render = function () {
