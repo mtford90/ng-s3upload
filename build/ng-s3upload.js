@@ -152,7 +152,8 @@ angular.module('ngS3upload.directives', []).
         s3UploadOptions: '=',
         options: '=',
         bucket: '&',
-        subdomain: '&'
+        subdomain: '&',
+        url: '='
       },
       controller: ['$scope', '$element', '$attrs', '$transclude', function ($scope, $element, $attrs, $transclude) {
         $scope.attempt = false;
@@ -221,7 +222,8 @@ angular.module('ngS3upload.directives', []).
                   ngModel.$setValidity('uploading', false);
                 }
 
-                var s3Uri = 'https://' + bucket + '.' + subdomain+ '.amazonaws.com/';
+                var s3Uri = 'https://' + bucket + '.' + subdomain + '.amazonaws.com/';
+
                 var key = opts.targetFilename ? scope.$eval(opts.targetFilename) : opts.folder + (new Date()).getTime() + '-' + S3Uploader.randomString(16) + "." + ext;
                 S3Uploader.upload(scope,
                     s3Uri,
@@ -235,6 +237,7 @@ angular.module('ngS3upload.directives', []).
                   ).then(function () {
                     ngModel.$setViewValue(s3Uri + key);
                     scope.filename = ngModel.$viewValue;
+                    scope.url = scope.filename;
 
                     if (opts.enableValidation) {
                       ngModel.$setValidity('uploading', true);
@@ -242,6 +245,7 @@ angular.module('ngS3upload.directives', []).
                     }
                   }, function () {
                     scope.filename = ngModel.$viewValue;
+                    scope.url = scope.filename;
 
                     if (opts.enableValidation) {
                       ngModel.$setValidity('uploading', true);
