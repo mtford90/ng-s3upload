@@ -197,7 +197,6 @@ angular.module('ngS3upload.directives', []).
 
             var uploadFile = function () {
               var selectedFile = file[0].files[0];
-              console.log('selectedFile', selectedFile);
               var filename = selectedFile.name;
               var ext = filename.split('.').pop();
 
