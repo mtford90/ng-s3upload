@@ -10,7 +10,8 @@ angular.module('ngS3upload.directives', []).
         options: '=',
         bucket: '&',
         subdomain: '&',
-        url: '='
+        url: '=',
+        path: '='
       },
       controller: ['$scope', '$element', '$attrs', '$transclude', function ($scope, $element, $attrs, $transclude) {
         $scope.attempt = false;
@@ -96,13 +97,17 @@ angular.module('ngS3upload.directives', []).
                     scope.filename = ngModel.$viewValue;
                     scope.url = scope.filename;
 
+                    // Genius - https://gist.github.com/jlong/2428561
+                    var urlParser = document.createElement('a');
+                    urlParser.href = scope.url;
+                    scope.path = urlParser.pathname;
+
                     if (opts.enableValidation) {
                       ngModel.$setValidity('uploading', true);
                       ngModel.$setValidity('succeeded', true);
                     }
                   }, function () {
                     scope.filename = ngModel.$viewValue;
-                    scope.url = scope.filename;
 
                     if (opts.enableValidation) {
                       ngModel.$setValidity('uploading', true);
