@@ -79,7 +79,7 @@ module.exports = function (grunt) {
     },
     watch: {
       options: {
-        livereload: true
+        livereload: process.env['LIVERELOAD_PORT'] || true
       },
       files: [
         'Gruntfile.js',
