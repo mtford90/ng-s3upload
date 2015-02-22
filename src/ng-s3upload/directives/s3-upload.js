@@ -5,7 +5,12 @@ angular.module('ngS3upload.directives', []).
       require: '?ngModel',
       replace: true,
       transclude: false,
-      scope: true,
+      scope: {
+        s3UploadOptions: '=',
+        options: '=',
+        bucket: '&',
+        subdomain: '&'
+      },
       controller: ['$scope', '$element', '$attrs', '$transclude', function ($scope, $element, $attrs, $transclude) {
         $scope.attempt = false;
         $scope.success = false;
@@ -20,13 +25,14 @@ angular.module('ngS3upload.directives', []).
       compile: function (element, attr, linker) {
         return {
           pre: function ($scope, $element, $attr) {
-            if (angular.isUndefined($attr.bucket)) {
+            if (angular.isUndefined($scope.bucket)) {
               throw Error('bucket is a mandatory attribute');
             }
           },
           post: function (scope, element, attrs, ngModel) {
+            console.log('scope', scope);
             // Build the opts array
-            var opts = angular.extend({}, scope.$eval(attrs.s3UploadOptions || attrs.options));
+            var opts = scope.s3UploadOptions || scope.options;
             opts = angular.extend({
               submitOnChange: true,
               getOptionsUri: '/getS3Options',
@@ -37,8 +43,8 @@ angular.module('ngS3upload.directives', []).
               enableValidation: true,
               targetFilename: null
             }, opts);
-            var bucket = scope.$eval(attrs.bucket),
-              subdomain = attrs.subdomain ? scope.$eval(attrs.subdomain) : 's3';
+            var bucket = scope.bucket(),
+              subdomain = scope.subdomain() || 's3';
 
             var button = angular.element(element.children()[0]),
               file = angular.element(element.find("input")[0]);
