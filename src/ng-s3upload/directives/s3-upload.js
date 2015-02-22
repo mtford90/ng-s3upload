@@ -37,7 +37,8 @@ angular.module('ngS3upload.directives', []).
               enableValidation: true,
               targetFilename: null
             }, opts);
-            var bucket = scope.$eval(attrs.bucket);
+            var bucket = scope.$eval(attrs.bucket),
+              subdomain = attrs.subdomain ? scope.$eval(attrs.subdomain) : 's3';
 
             // Bind the button click event
             var button = angular.element(element.children()[0]),
@@ -71,7 +72,7 @@ angular.module('ngS3upload.directives', []).
                   ngModel.$setValidity('uploading', false);
                 }
 
-                var s3Uri = 'https://' + bucket + '.s3.amazonaws.com/';
+                var s3Uri = 'https://' + bucket + '.' + subdomain+ '.amazonaws.com/';
                 var key = opts.targetFilename ? scope.$eval(opts.targetFilename) : opts.folder + (new Date()).getTime() + '-' + S3Uploader.randomString(16) + "." + ext;
                 S3Uploader.upload(scope,
                     s3Uri,
