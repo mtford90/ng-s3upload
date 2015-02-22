@@ -53,11 +53,9 @@ angular.module('ngS3upload.directives', []).
             };
 
             var uploadFile = function () {
-              var selectedFile = file[0].files[0];
+              var selectedFile = scope.selectedFile;
               var filename = selectedFile.name;
               var ext = filename.split('.').pop();
-
-              scope.originalFilename = filename;
 
               if(angular.isObject(opts.getManualOptions)) {
                 _upload(opts.getManualOptions);
@@ -105,11 +103,25 @@ angular.module('ngS3upload.directives', []).
             };
 
             element.bind('change', function (nVal) {
-              if (opts.submitOnChange) {
-                scope.$apply(function () {
-                  uploadFile();
-                });
+              scope.selectedFile = file[0].files[0];
+              if (window.FileReader) {
+                var reader = new window.FileReader();
+                reader.onerror = function (err) {
+                  console.error('Error reading image data', err);
+                  scope.error = err;
+                };
+                reader.onloadend = function () {
+                  scope.$apply(function () {
+                    scope.imageURI = reader.result;
+                  });
+                };
+                reader.readAsDataURL(scope.selectedFile);
               }
+              scope.$apply(function () {
+                if (opts.submitOnChange) {
+                    uploadFile();
+                }
+              });
             });
 
             if (angular.isDefined(attrs.doUpload)) {
