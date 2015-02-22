@@ -57,6 +57,8 @@ angular.module('ngS3upload.directives', []).
               var filename = selectedFile.name;
               var ext = filename.split('.').pop();
 
+              scope.originalFilename = filename;
+
               if(angular.isObject(opts.getManualOptions)) {
                 _upload(opts.getManualOptions);
               } else {
